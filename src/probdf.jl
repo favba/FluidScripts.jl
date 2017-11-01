@@ -1,4 +1,4 @@
-function prodf(file::String)
+function probdf(file::String)
   writedlm(file*".pdf.txt",hist(readfield(file)))
   return 0
 end 
