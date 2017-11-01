@@ -1,3 +1,3 @@
 #!/usr/bin/env julia -O3 --startup-file=no
-using FluidScripts.prodf
+using FluidScripts.probdf
 probdf(ARGS...)
