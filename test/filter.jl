@@ -1,4 +1,4 @@
-#!/usr/bin/env julia -O3 --startup-file=no
+#!/usr/bin/env julia
 using FluidScripts.filter
 
 inputfile = ARGS[1]

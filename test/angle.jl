@@ -1,3 +1,3 @@
-#!/usr/bin/env julia -O3 --statup-file=no
+#!/usr/bin/env julia
 using FluidScripts.angle
 angle(ARGS...)

@@ -1,4 +1,4 @@
-#!/usr/bin/env julia -O3 --startup-file=no
+#!/usr/bin/env julia
 using FluidScripts.makeModel
 for f::String in ARGS
   makeModel(f)

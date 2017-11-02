@@ -1,4 +1,4 @@
-#!/usr/bin/env julia -O3 --startup-file=no
+#!/usr/bin/env julia
 using FluidScripts.VectorDirec
 
 VectorDirec(ARGS...)
