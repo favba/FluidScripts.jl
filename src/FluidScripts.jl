@@ -1,6 +1,6 @@
 __precompile__()
 module FluidScripts
-using StaticArrays, LESFilter, InplaceRealFFTW, ReadGlobal, MyStats, Derivatives
+using StaticArrays, LESFilter, InplaceRealFFTW, ReadGlobal, MyStats, Derivatives, Decomp
 
 includelist = [
 "MakeD.jl",
