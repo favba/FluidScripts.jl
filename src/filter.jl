@@ -3,6 +3,13 @@ function filter(inputfile::String,N::Int,fil::String)
   dtype, padded = checkinput(inputfile,nx,ny,nz)
   field = PaddedArray(inputfile,dtype,(nx,ny,nz),padded=padded)
 
+  # Ugly fix in case dtype is Float32
+  if eltype(field) == Complex{Float32}
+    field2 = field
+    field = PaddedArray(Float64,size(real(field2)))
+    real(field) .= real(field2)
+  end
+
   boxdim = N*2*zs*π/nz
   isfile("wisdom") && FFTW.import_wisdom("wisdom")
   info("Filtering File $inputfile")
