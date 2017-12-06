@@ -22,9 +22,7 @@ end
 
 function makeT()
 
-place = split(pwd(),"/")
-N = place[end][2:end]
-Fil = place[end-1][1]
+N, Fil = getnfilter()
 
 nx, ny, nz, lx, ly, lz = getdimsize()
 
