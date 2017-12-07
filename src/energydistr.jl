@@ -1,3 +1,33 @@
+@inline function energydistr_scalar(t11::T,t22::T,t33::T,t12::T,t13::T,t23::T,
+  d11::T,d22::T,d33::T,d12::T,d13::T,d23::T,
+  w12::T,w13::T,w23::T) where {T<:Number}
+
+  #ɛ = t11 * d11 + t22 * d22 + t33 * d33 + 2.0*(t12 * d12 + t13*d13 + t23*d23)
+  ɛ = muladd(t11, d11 ,muladd(t22, d22, muladd(t33, d33, 2.0*muladd(t12, d12, muladd(t13, d13, t23*d23)))))
+
+  #dir11 = (d11*t11+d12*t12+d13*t13-t12*w12-t13*w13) - ɛ/3.
+  dir11 = muladd(d11, t11, muladd(d12, t12, muladd(d13, t13, -muladd(t12, w12, muladd(t13, w13, ɛ/3)))))
+
+  #dir22 = (d12*t12+d22*t22+d23*t23+t12*w12-t23*w23) - ɛ/3.
+  dir22 = muladd(d12, t12, muladd(d22, t22, muladd(d23, t23, muladd(t12, w12, -muladd(t23, w23, ɛ/3)))))
+
+  #dir33 = (d13*t13+d23*t23+d33*t33+t13*w13+t23*w23) - ɛ/3.
+  dir33 = muladd(d13, t13, muladd(d23, t23, muladd(d33, t33, muladd(t13, w13, muladd(t23, w23, - ɛ/3)))))
+
+  #dir12 = 0.5*(d11*t12+d12*t11+d12*t22+d13*t23+d22*t12+d23*t13+t11*w12-t13*w23-t22*w12-t23*w13)
+  dir12 = 0.5*muladd(d11, t12, muladd(d12, t11, muladd(d12, t22, muladd(d13, t23,
+             muladd(d22, t12, muladd(d23, t13, muladd(t11, w12, -muladd(t13, w23, muladd(t22, w12, t23*w13)))))))))
+
+  #dir13 = 0.5*(d11*t13+d12*t23+d13*t11+d13*t33+d23*t12+d33*t13+t11*w13+t12*w23-t23*w12-t33*w13)
+  dir13 = 0.5*muladd(d11, t13, muladd(d12, t23, muladd(d13, t11, muladd(d13, t33, 
+             muladd(d23, t12, muladd(d33, t13, muladd(t11, w13, muladd(t12, w23, -muladd(t23, w12, t33*w13)))))))))
+
+  #dir23 = 0.5*(d12*t13+d13*t12+d22*t23+d23*t22+d23*t33+d33*t23+t12*w13+t13*w12+t22*w23-t33*w23)
+  dir23 = 0.5*muladd(d12, t13, muladd(d13, t12, muladd(d22, t23, muladd(d23, t22,
+             muladd(d23, t33, muladd(d33, t23, muladd(t12, w13, muladd(t13, w12, muladd(t22, w23, -t33*w23)))))))))
+  return ε, dir11, dir22, dir33, dir12, dir13, dir23
+end
+
 function energydistr_part!(t11::T,t22::T,t33::T,t12::T,t13::T,t23::T,
                       d11::T,d22::T,d33::T,d12::T,d13::T,d23::T,
                       w12::T,w13::T,w23::T,
@@ -5,14 +35,9 @@ function energydistr_part!(t11::T,t22::T,t33::T,t12::T,t13::T,t23::T,
                       ɛ::T) where {T<:Vector{<:Number}}
 
   Threads.@threads for i in 1:length(d11)
-   @inbounds ɛ[i] = t11[i] * d11[i] + t22[i] * d22[i] + t33[i] * d33[i] + 2.0*(t12[i] * d12[i] + t13[i]*d13[i] + t23[i]*d23[i])
+    
+    @inbounds ɛ[i], dir11[i], dir22[i], dir33[i], dir12[i], dir13[i], dir23[i] = energydistr_scalar(t11[i],t22[i],t33[i],t12[i],t13[i],t23[i],d11[i],d22[i],d33[i],d12[i],d13[i],d23[i],w12[i],w13[i],w23[i])
 
-   @inbounds dir11[i] = (d11[i]*t11[i]+d12[i]*t12[i]+d13[i]*t13[i]-t12[i]*w12[i]-t13[i]*w13[i]) - ɛ[i]/3.
-   @inbounds dir22[i] = (d12[i]*t12[i]+d22[i]*t22[i]+d23[i]*t23[i]+t12[i]*w12[i]-t23[i]*w23[i]) - ɛ[i]/3.
-   @inbounds dir33[i] = (d13[i]*t13[i]+d23[i]*t23[i]+d33[i]*t33[i]+t13[i]*w13[i]+t23[i]*w23[i]) - ɛ[i]/3.
-   @inbounds dir12[i] = 0.5*(d11[i]*t12[i]+d12[i]*t11[i]+d12[i]*t22[i]+d13[i]*t23[i]+d22[i]*t12[i]+d23[i]*t13[i]+t11[i]*w12[i]-t13[i]*w23[i]-t22[i]*w12[i]-t23[i]*w13[i])
-   @inbounds dir13[i] = 0.5*(d11[i]*t13[i]+d12[i]*t23[i]+d13[i]*t11[i]+d13[i]*t33[i]+d23[i]*t12[i]+d33[i]*t13[i]+t11[i]*w13[i]+t12[i]*w23[i]-t23[i]*w12[i]-t33[i]*w13[i])
-   @inbounds dir23[i] = 0.5*(d12[i]*t13[i]+d13[i]*t12[i]+d22[i]*t23[i]+d23[i]*t22[i]+d23[i]*t33[i]+d33[i]*t23[i]+t12[i]*w13[i]+t13[i]*w12[i]+t22[i]*w23[i]-t33[i]*w23[i])
   end
   return nothing
 end
