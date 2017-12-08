@@ -55,7 +55,7 @@ function filter(inputfile::String, N1::Int, N2::Int, fil::String)
   end
 
   isdir(pathoutput) || mkpath(pathoutput)
-  outfilename = "$(pathoutput)/$(fil)$(split(split(inputfile,"/")[end],".")[1])_N$(N1)"
+  outfilename = "$(pathoutput)/$(fil)$(split(split(inputfile,"/")[end],".")[1])_N$(N2)N$(N1)"
   info("Saving filtered field in $outfilename")
   write(outfilename,field.r)
   FFTW.export_wisdom("fftw_wisdom")
