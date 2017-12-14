@@ -13,13 +13,15 @@ function filter(inputfile::String,N::Int,fil::String)
   boxdim = N*2*zs*π/nz
   isfile("fftw_wisdom") && FFTW.import_wisdom("fftw_wisdom")
   info("Filtering File $inputfile")
-  lesfilter!(field, fil=fil, boxdim=boxdim, lengths=(xs,ys,zs))
+  lesfilter!(field, fil, boxdim, (xs,ys,zs))
   info("Done")
 
   if fil == "G"
     pathoutput = "./Filtered_Fields/Gaussian/N$N"
   elseif fil =="C"
     pathoutput = "./Filtered_Fields/CutOff/N$N"
+  elseif fil =="B"
+    pathoutput = "./Filtered_Fields/Box/N$N"
   end
 
   isdir(pathoutput) || mkpath(pathoutput)
@@ -45,7 +47,7 @@ function filter(inputfile::String, N1::Int, N2::Int, fil::String)
   boxdimz = N2*2*zs*π/nz
   isfile("fftw_wisdom") && FFTW.import_wisdom("fftw_wisdom")
   info("Filtering File $inputfile")
-  lesfilter!(field, fil=fil, boxdim=boxdimxy, boxdimz=boxdimz, lengths=(xs,ys,zs))
+  lesfilter!(field, fil, boxdimxy, boxdimz, (xs,ys,zs))
   info("Done")
 
   if fil == "G"
