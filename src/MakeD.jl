@@ -30,7 +30,7 @@ function MakeD()
 N,Fil = getnfilter()
 nx, ny, nz, lx, ly, lz = getdimsize()
 dim = (nx,ny,nz)
-isfile("wisdom") && FFTW.import_wisdom("wisdom")
+isfile("fftw_wisdom") && FFTW.import_wisdom("fftw_wisdom")
 
 aux1 = PaddedArray("$(Fil)u1_N$N",(nx,ny,nz))
 write("$(Fil)D11_N$N",dx!(aux1,lx))

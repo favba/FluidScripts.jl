@@ -1,12 +1,12 @@
 function filter(inputfile::String,N::Int,fil::String)
   nx,ny,nz,xs,ys,zs = getdimsize()
   dtype, padded = checkinput(inputfile,nx,ny,nz)
-  field = PaddedArray(inputfile,dtype,(nx,ny,nz),padded=padded)
+  field = PaddedArray{dtype}(inputfile,(nx,ny,nz),padded)
 
   # Ugly fix in case dtype is Float32
   if eltype(field) == Complex{Float32}
     field2 = field
-    field = PaddedArray(Float64,size(real(field2)))
+    field = PaddedArray{Float64}(size(real(field2)))
     real(field) .= real(field2)
   end
 
@@ -34,12 +34,12 @@ end
 function filter(inputfile::String, N1::Int, N2::Int, fil::String)
   nx,ny,nz,xs,ys,zs = getdimsize()
   dtype, padded = checkinput(inputfile,nx,ny,nz)
-  field = PaddedArray(inputfile,dtype,(nx,ny,nz),padded=padded)
+  field = PaddedArray{dtype}(inputfile,(nx,ny,nz),padded)
 
   # Ugly fix in case dtype is Float32
   if eltype(field) == Complex{Float32}
     field2 = field
-    field = PaddedArray(Float64,size(real(field2)))
+    field = PaddedArray{Float64}(size(real(field2)))
     real(field) .= real(field2)
   end
 
@@ -47,7 +47,7 @@ function filter(inputfile::String, N1::Int, N2::Int, fil::String)
   boxdimz = N2*2*zs*π/nz
   isfile("fftw_wisdom") && FFTW.import_wisdom("fftw_wisdom")
   info("Filtering File $inputfile")
-  lesfilter!(field, fil, boxdimxy, boxdimz, (xs,ys,zs))
+  lesfilter!(field, fil, (boxdimxy, boxdimz), (xs,ys,zs))
   info("Done")
 
   if fil == "G"
