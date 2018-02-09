@@ -32,11 +32,11 @@ nx, ny, nz, lx, ly, lz = getdimsize()
 dim = (nx,ny,nz)
 isfile("fftw_wisdom") && FFTW.import_wisdom("fftw_wisdom")
 
-aux1 = PaddedArray("$(Fil)u1_N$N",(nx,ny,nz))
+aux1 = PaddedArray("$(Fil)u1_N$N",(nx,ny,nz),false)
 write("$(Fil)D11_N$N",dx!(aux1,lx))
 read!("$(Fil)u1_N$N",aux1)
 
-aux2 = PaddedArray("$(Fil)u2_N$N",(nx,ny,nz))
+aux2 = PaddedArray("$(Fil)u2_N$N",(nx,ny,nz),false)
 write("$(Fil)D22_N$N",dy!(aux2,ly))
 read!("$(Fil)u2_N$N",aux2)
 
