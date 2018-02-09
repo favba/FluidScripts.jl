@@ -13,14 +13,18 @@ function tminus!(r::Array{T,N},u::Array{T,N},v::Array{T,N}) where {T,N}
 end
 
 function sym(u::A,v::A) where {A<:PaddedArray{T,N} where {T,N}}
-  r = similar(u.rr)
-  tplus!(r,u.rr,v.rr)
+  urr = parent(real(u))
+  vrr = parent(real(v))
+  r = similar(urr)
+  tplus!(r,urr,vrr)
   return r
 end
 
 function antisym(u::A,v::A) where {A<:PaddedArray{T,N} where {T,N}}
-  r = similar(u.rr)
-  tminus!(r,u.rr,v.rr)
+  urr = parent(real(u))
+  vrr = parent(real(v))
+  r = similar(urr)
+  tminus!(r,urr,vrr)
   return r
 end
 
