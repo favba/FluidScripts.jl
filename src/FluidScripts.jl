@@ -2,7 +2,7 @@ __precompile__()
 module FluidScripts
 using StaticArrays, LESFilter, InplaceRealFFT, ReadGlobal, MyStats, Derivatives, Decomp
 
-includelist = [
+includelist = (
 "MakeD.jl",
 "TensorDirec.jl",
 "VectorDirec.jl",
@@ -16,8 +16,9 @@ includelist = [
 "makeT.jl",
 "makeflux.jl",
 "probdf.jl",
-"resize.jl"
-]
+"resize.jl",
+"norm.jl"
+)
 
 for file in includelist
   include(file)
