@@ -17,7 +17,8 @@ includelist = (
 "makeflux.jl",
 "probdf.jl",
 "resize.jl",
-"norm.jl"
+"norm.jl",
+"histindices.jl"
 )
 
 for file in includelist
