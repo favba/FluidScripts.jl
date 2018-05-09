@@ -5,9 +5,9 @@ using JLD2
 
 function main(inpname::AbstractString, condname::AbstractString, outfilename::AbstractString)
     field = readfield(inpname)
-    @load condname ind
+    @load condname ind bins
     r = condmean(field,ind)
-    writedlm(outfilename,r)
+    writedlm(outfilename,hcat(bins,r))
     return nothing
 end
 
