@@ -41,6 +41,9 @@ function div(t11::AbstractString,t12::AbstractString,t13::AbstractString,t22::Ab
     kyim = (2π .* fftfreq(ny,ly) .* im)
     kzim = (2π .* fftfreq(nz,lz) .* im)
 
+    FFTW.set_num_threads(Threads.nthreads())
+    isfile("fftw_wisdom") && FFTW.import_wisdom("fftw_wisdom")
+
     dtype, padded = checkinput(t11,nx,ny,nz)
 
     aux1 = PaddedArray(t11,s,padded)
@@ -103,6 +106,9 @@ function div(u1::AbstractString,u2::AbstractString,u3::AbstractString,f::Abstrac
     kxim = (2π .* rfftfreq(nx,lx) .* im)
     kyim = (2π .* fftfreq(ny,ly) .* im)
     kzim = (2π .* fftfreq(nz,lz) .* im)
+
+    FFTW.set_num_threads(Threads.nthreads())
+    isfile("fftw_wisdom") && FFTW.import_wisdom("fftw_wisdom")
 
     dtype, padded = checkinput(u1,nx,ny,nz)
 
