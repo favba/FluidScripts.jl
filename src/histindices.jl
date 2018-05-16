@@ -11,7 +11,7 @@ end
 function dbkhistindices(input::AbstractString,nbins::Integer)
     field = readfield(input)
     minf,maxf = min_max(field)
-    ind = dbkhist_indices(field,minf,maxf,nbins)
+    ind = dbkhist_indices(field,nbins)
     centers =  zeros(nbins)
     @inbounds for i in 1:nbins
         centers[i] = mean(view(field,ind[i]))
