@@ -3,7 +3,7 @@ using MyStats.condmean
 using ReadGlobal: readfield, readfield!
 using JLD2
 
-function main(condname::AbstractString, inpname::AbstractVector{<:AbstractString}, outfilename::AbstractVector{AbstractString})
+function main(condname::AbstractString, inpname::AbstractVector{<:AbstractString}, outfilename::AbstractVector{<:AbstractString})
     @load condname ind bins
     field = readfield(inpname[1])
     for i in linearindices(inpname)
