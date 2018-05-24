@@ -17,7 +17,7 @@ end
 function main(args::Vector{<:AbstractString})
     condname = args[1]
     iseven(length(args)) && error()
-    p = div(length(args) - 1, 2)
+    p = div(length(args) - 1, 2) + 1
     inpname = args[2:p]
     outfilename = args[p+1:end]
     main(condname,inpname,outfilename)
