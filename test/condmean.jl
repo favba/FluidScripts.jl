@@ -8,8 +8,8 @@ function main(condname::AbstractString, inpname::AbstractVector{<:AbstractString
     field = readfield(inpname[1])
     for i in linearindices(inpname)
         readfield!(inpname[i],field)
-        r = condmean(field,ind)
-        writedlm(outfilename[i],hcat(bins,r))
+        r,err = condmean(field,ind)
+        writedlm(outfilename[i],hcat(bins,r,err))
     end
     return nothing
 end
