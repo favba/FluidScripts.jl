@@ -2,19 +2,18 @@ function dinfo(file::String)
   field = readfield(file)
   nx,ny,nz,_,_,_ = getdimsize()
   fdims = (nx,ny,nz)
-  med = mean(field)
-  devi = std(field,mean=med)
-  imax =  indmax(field)
+  med = tmean(field)
+  devi = tstd(field,med)
+  imax,imin =  min_max_ind(field)
   fmax = field[imax]
-  imax = ind2sub(fdims,imax)
-  imin =  indmin(field)
+  imaxc = ind2sub(fdims,imax)
   fmin = field[imin]
-  imin = ind2sub(fdims,imin)
+  iminc = ind2sub(fdims,imin)
 
   println("Mean: ",med)
   println("Std: ",devi)
-  println("Max: ",fmax," at ",imax)
-  println("Min: ",fmin," at ",imin)
+  println("Max: ",fmax," at ",imaxc)
+  println("Min: ",fmin," at ",iminc)
   return 0
 end
 
