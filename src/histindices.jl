@@ -19,3 +19,13 @@ function dbkhistindices(input::AbstractString,nbins::Integer)
     bins = centers
     @save "pdf_dbkindices_$(input)_nbins$(nbins).jld2" ind bins
 end
+
+function histstdindices(input::AbstractString,nbins::Integer)
+    field = readfield(input)
+    med,stdv,_,_ = read_info(input*".info")
+    minf = med - 3*stdv
+    maxf = med + 3*stdv
+    ind = hist_indices(field,minf,maxf,nbins)
+    bins = Bins(minf,maxf,nbins)
+    @save "pdf_std_indices_$(input)_nbins$(nbins).jld2" ind bins
+end
