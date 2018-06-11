@@ -27,5 +27,5 @@ function histstdindices(input::AbstractString,nbins::Integer,nstd::Number)
     maxf = med + nstd*stdv
     ind = hist_indices(field,minf,maxf,nbins)
     bins = Bins(minf,maxf,nbins)
-    @save "pdf_std($nstd)_indices_$(input)_nbins$(nbins).jld2" ind bins
+    @save "pdf_std$(nstd)_indices_$(input)_nbins$(nbins).jld2" ind bins
 end

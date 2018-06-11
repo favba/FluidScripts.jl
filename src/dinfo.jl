@@ -4,7 +4,7 @@ function dinfo(file::String)
   fdims = (nx,ny,nz)
   med = tmean(field)
   devi = tstd(field,med)
-  imax,imin =  min_max_ind(field)
+  imin,imax=  min_max_ind(field)
   fmax = field[imax]
   imaxc = ind2sub(fdims,imax)
   fmin = field[imin]
