@@ -12,19 +12,17 @@ function tminus!(r::Array{T,N},u::Array{T,N},v::Array{T,N}) where {T,N}
   return r
 end
 
-function sym(u::A,v::A) where {A<:PaddedArray{T,N} where {T,N}}
-  urr = parent(real(u))
-  vrr = parent(real(v))
-  r = similar(urr)
-  tplus!(r,urr,vrr)
+function sym!(r,u::A,v::A) where {A<:PaddedArray{T,N} where {T,N}}
+  urr = data(u)
+  vrr = data(v)
+  tplus!(data(r),urr,vrr)
   return r
 end
 
-function antisym(u::A,v::A) where {A<:PaddedArray{T,N} where {T,N}}
-  urr = parent(real(u))
-  vrr = parent(real(v))
-  r = similar(urr)
-  tminus!(r,urr,vrr)
+function antisym!(r,u::A,v::A) where {A<:PaddedArray{T,N} where {T,N}}
+  urr = data(u)
+  vrr = data(v)
+  tminus!(data(r),urr,vrr)
   return r
 end
 
@@ -46,32 +44,28 @@ read!("$(Fil)u2_N$N",aux2,false)
 
 dy!(aux1,ly)
 dx!(aux2,lx)
-write("$(Fil)D12_N$N", @view(sym(aux2,aux1)[1:(end-2),:,:]))
-gc()
-write("$(Fil)W12_N$N", @view(antisym(aux2,aux1)[1:(end-2),:,:]))
-gc()
+
+aux3 = similar(aux1)
+write("$(Fil)D12_N$N", real(sym!(aux3,aux2,aux1)))
+write("$(Fil)W12_N$N", real(antisym!(aux3,aux2,aux1)))
 
 read!("$(Fil)u3_N$N",aux2,false)
 write("$(Fil)D33_N$N",dz!(aux2,lz))
-gc()
 read!("$(Fil)u3_N$N",aux2,false)
 
 read!("$(Fil)u1_N$N",aux1,false)
 
 dz!(aux1,lz)
 dx!(aux2,lx)
-write("$(Fil)D13_N$N", @view(sym(aux2,aux1)[1:(end-2),:,:]))
-gc()
-write("$(Fil)W13_N$N", @view(antisym(aux2,aux1)[1:(end-2),:,:]))
-gc()
+write("$(Fil)D13_N$N", real(sym!(aux3,aux2,aux1)))
+write("$(Fil)W13_N$N", real(antisym!(aux3,aux2,aux1)))
 
 read!("$(Fil)u2_N$N",aux1,false)
 read!("$(Fil)u3_N$N",aux2,false)
 dz!(aux1,lz)
 dy!(aux2,ly)
-write("$(Fil)D23_N$N", @view(sym(aux2,aux1)[1:(end-2),:,:]))
-gc()
-write("$(Fil)W23_N$N", @view(antisym(aux2,aux1)[1:(end-2),:,:]))
+write("$(Fil)D23_N$N", real(sym!(aux3,aux2,aux1)))
+write("$(Fil)W23_N$N", real(antisym!(aux3,aux2,aux1)))
 
 return 0
 end
