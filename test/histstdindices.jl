@@ -1,5 +1,15 @@
 #!/usr/bin/env julia
-using FluidScripts.histstdindices
+using ReadGlobal, MyStats, JLD2
+
+function histstdindices(input::AbstractString,nbins::Integer,nstd::Number)
+    field = readfield(input)
+    med,stdv,_,_ = read_info(input*".info")
+    minf = med - nstd*stdv
+    maxf = med + nstd*stdv
+    ind = hist_indices(field,minf,maxf,nbins)
+    bins = Bins(minf,maxf,nbins)
+    @save "pdf_std$(nstd)_indices_$(input)_nbins$(nbins).jld2" ind bins
+end
 
 function main(f,ns,nstds)
     n = parse(Int,ns)
