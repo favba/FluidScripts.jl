@@ -11,7 +11,7 @@ function probdf(file::AbstractString,ntimess::AbstractString="3")
         m = tmean(field)
         stand = tstd(field,m)
     end
-    writedlm(file*".pdf.txt",histstd(field,m,stand,ntimes,36,true))
+    writedlm(file*".pdf.txt",histstd(field,m,stand,ntimes,100,true))
     return 0
 end 
 
