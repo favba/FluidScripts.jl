@@ -3,7 +3,7 @@ using ReadGlobal
 
 function coef(out,f1,f2,f3,m1,m2,m3,α)
     Threads.@threads for i in linearindices(out)
-        @inbounds out[i] = α * muladd(f1[i],m1[i], muladd(f2[i],m2[i],f3[i]*m3[i])) / muladd(m1[i],m1[i], muladd(m2[i],m2[i],m3[i]*m3[i]))
+        @inbounds out[i] = α * muladd(f1[i],m1[i], muladd(f2[i],m2[i],f3[i]*m3[i])) / muladd(m1[i],m1[i], muladd(m2[i],m2[i],muladd(m3[i],m3[i],eps())))
     end
 end
 
