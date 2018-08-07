@@ -23,30 +23,30 @@ function main()
     coef(m1,f1,f2,f3,m1,m2,m3,1/(Δ*Δ*S))
     write("coef_1modelflux",m1)
 
-    read!(m1,"2modelflux1")
-    read!(m2,"2modelflux2")
-    read!(m3,"2modelflux3")
+    read!("2modelflux1",m1)
+    read!("2modelflux2",m2)
+    read!("2modelflux3",m3)
 
     coef(m1,f1,f2,f3,m1,m2,m3,1/S)
     write("coef_2modelflux",m1)
 
-    read!(m1,"3modelflux1")
-    read!(m2,"3modelflux2")
-    read!(m3,"3modelflux3")
+    read!("3modelflux1",m1)
+    read!("3modelflux2",m2)
+    read!("3modelflux3",m3)
 
     coef(m1,f1,f2,f3,m1,m2,m3,1/(Δ*Δ))
     write("coef_3modelflux",m1)
 
-    read!(m1,"4modelflux1")
-    read!(m2,"4modelflux2")
-    read!(m3,"4modelflux3")
+    read!("4modelflux1",m1)
+    read!("4modelflux2",m2)
+    read!("4modelflux3",m3)
 
     coef(m1,f1,f2,f3,m1,m2,m3,1/(Δ*Δ))
     write("coef_4modelflux",m1)
 
-    read!(m1,"5modelflux1")
-    read!(m2,"5modelflux2")
-    read!(m3,"5modelflux3")
+    read!("5modelflux1",m1)
+    read!("5modelflux2",m2)
+    read!("5modelflux3",m3)
 
     coef(m1,f1,f2,f3,m1,m2,m3,1/(Δ*Δ))
     write("coef_5modelflux",m1)
