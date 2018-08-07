@@ -9,13 +9,13 @@ usage: grad.jl inputfile dx_filename dy_filename dz_filename
 function _main(field::AbstractArray,lx,ly,lz,f1::AbstractString,f2::AbstractString,f3::AbstractString)
     out = copy(field)
     dx!(out,lx)
-    write(f1,out)
+    write(f1,out.r)
     copy!(out,field)
     dy!(out,ly)
-    write(f2,out)
+    write(f2,out.r)
     copy!(out,field)
     dz!(out,lz)
-    write(f3,out)
+    write(f3,out.r)
 end
 
 function main()
