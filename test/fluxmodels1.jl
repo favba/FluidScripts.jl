@@ -2,7 +2,7 @@
 using ReadGlobal
 
 function model2_part!(r1,r2,r3,t11,t12,t13,t22,t23,t33,out1,out2,out3)
-    Threads.@threads for i in linearindices(rho)
+    Threads.@threads for i in linearindices(r1)
         @inbounds out1[i] = t11[i]*r1[i] + t12[i]*r2[i] + t13[i]*r3[i]
         @inbounds out2[i] = t12[i]*r1[i] + t22[i]*r2[i] + t23[i]*r3[i]
         @inbounds out3[i] = t13[i]*r1[i] + t23[i]*r2[i] + t33[i]*r3[i]
