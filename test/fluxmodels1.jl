@@ -24,3 +24,5 @@ function main()
     t33 = "$(Fil)T33_N$N"
     doinchunks(model2_part!, input=(r1,r2,r3,t11,t12,t13,t22,t23,t33), output=("2modelflux1", "2modelflux2", "2modelflux3"))
 end
+
+main()
