@@ -18,7 +18,7 @@ function main()
 
     nx,ny,nz,lx,ly,lz = getdimsize()
     Δ = parse(Float64,N)*2π*lx/nx
-    S,_,_,_ = read_info("normD")
+    S,_,_,_ = read_info("normD.info")
 
     coef(m1,f1,f2,f3,m1,m2,m3,1/(Δ*Δ*S))
     write("coef_1modelflux",m1)
