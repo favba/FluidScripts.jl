@@ -18,7 +18,7 @@ function model3(r1,r2,r3,d11,d12,d13,d22,d23,d33,w12,w13,w23,v1,v2,v3)
 end
 
 function model5(r1,r2,r3,w12,w13,w23,v1,v2,v3)
-    Threads.@threads for i in 1:length(d11)
+    Threads.@threads for i in 1:length(w11)
         @inbounds v1[i] = w12[i]*r2[i] + w13[i]*r3[i]
         @inbounds v2[i] = -w12[i]*r1[i] + w23[i]*r3[i]
         @inbounds v3[i] = -w13[i]*r1[i] - w23[i]*r2[i]
