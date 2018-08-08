@@ -1,69 +1,56 @@
 #!/usr/bin/env julia
 using ReadGlobal
-function fluxmodels2()
-    nx, ny, nz, xs, ys, zs = getdimsize()
-    
-    dim = (nx,ny,nz)
-    
-    place = split(pwd(),"/")
-    
-    N = place[end][2:end]
-    Fil = place[end-1][1]
-    
-    d11 = Mmap.mmap("$(Fil)D11_N$N",Array{Float64,3},dim)
-    d22 = Mmap.mmap("$(Fil)D22_N$N",Array{Float64,3},dim)
-    d33 = Mmap.mmap("$(Fil)D33_N$N",Array{Float64,3},dim)
-    d12 = Mmap.mmap("$(Fil)D12_N$N",Array{Float64,3},dim)
-    d13 = Mmap.mmap("$(Fil)D13_N$N",Array{Float64,3},dim)
-    d23 = Mmap.mmap("$(Fil)D23_N$N",Array{Float64,3},dim)
-    
-    
-    w12 = Mmap.mmap("$(Fil)W12_N$N",Array{Float64,3},dim)
-    w13 = Mmap.mmap("$(Fil)W13_N$N",Array{Float64,3},dim)
-    w23 = Mmap.mmap("$(Fil)W23_N$N",Array{Float64,3},dim)
-    
-    r1 = Mmap.mmap("$(Fil)drhodx_N$N",Array{Float64,3},dim)
-    r2 = Mmap.mmap("$(Fil)drhody_N$N",Array{Float64,3},dim)
-    r3 = Mmap.mmap("$(Fil)drhodz_N$N",Array{Float64,3},dim)
-    
-    
-    v1 = Array{Float64}(dim)
-    v2 = Array{Float64}(dim)
-    v3 = Array{Float64}(dim)
-    
-    
-    #Threads.@threads for i in 1:length(d11)
-    for i in 1:length(d11)
+
+function model4(r1,r2,r3,d11,d12,d13,d22,d23,d33,v1,v2,v3)
+    Threads.@threads for i in 1:length(d11)
         @inbounds v1[i] = d11[i]*r1[i] + d12[i]*r2[i] + d13[i]*r3[i]
         @inbounds v2[i] = d12[i]*r1[i] + d22[i]*r2[i] + d23[i]*r3[i]
         @inbounds v2[i] = d13[i]*r1[i] + d23[i]*r2[i] + d33[i]*r3[i]
     end
-    
-    write("4modelflux1",v1)
-    write("4modelflux2",v2)
-    write("4modelflux3",v3)
-    
-    #Threads.@threads for i in 1:length(d11)
-    for i in 1:length(d11)
+end
+
+function model3(r1,r2,r3,d11,d12,d13,d22,d23,d33,w12,w13,w23,v1,v2,v3)
+    Threads.@threads for i in 1:length(d11)
         @inbounds v1[i] = d11[i]*r1[i] + (d12[i]+w12[i])*r2[i] + (d13[i]+w13[i])*r3[i]
         @inbounds v2[i] = (d12[i]-w12[i])*r1[i] + d22[i]*r2[i] + (d23[i]+w23[i])*r3[i]
         @inbounds v3[i] = (d13[i]-w13[i])*r1[i] + (d23[i]-w23[i])*r2[i] + d33[i]*r3[i]
     end
-    
-    write("3modelflux1",v1)
-    write("3modelflux2",v2)
-    write("3modelflux3",v3)
-    
-    #Threads.@threads for i in 1:length(d11)
-    for i in 1:length(d11)
+end
+
+function model5(r1,r2,r3,w12,w13,w23,v1,v2,v3)
+    Threads.@threads for i in 1:length(d11)
         @inbounds v1[i] = w12[i]*r2[i] + w13[i]*r3[i]
         @inbounds v2[i] = -w12[i]*r1[i] + w23[i]*r3[i]
         @inbounds v3[i] = -w13[i]*r1[i] - w23[i]*r2[i]
     end
-    
-    write("5modelflux1",v1)
-    write("5modelflux2",v2)
-    write("5modelflux3",v3)
-    
 end
+
+function fluxmodels2()
+    
+    N, Fil = getnfilter()
+    
+    d11 = "$(Fil)D11_N$N"
+    d22 = "$(Fil)D22_N$N"
+    d33 = "$(Fil)D33_N$N"
+    d12 = "$(Fil)D12_N$N"
+    d13 = "$(Fil)D13_N$N"
+    d23 = "$(Fil)D23_N$N"
+    
+    
+    w12 = "$(Fil)W12_N$N"
+    w13 = "$(Fil)W13_N$N"
+    w23 = "$(Fil)W23_N$N"
+    
+    r1 = "$(Fil)drhodx_N$N"
+    r2 = "$(Fil)drhody_N$N"
+    r3 = "$(Fil)drhodz_N$N"
+    
+    doinchunks(model4,input=(r1,r2,r3,d11,d12,d13,d22,d23,d33),output=("4modelflux1","4modelflux2","4modelflux3"))
+    
+    doinchunks(model3,input=(r1,r2,r3,d11,d12,d13,d22,d23,d33,w12,w13,w23),output=("3modelflux1","3modelflux2","3modelflux3"))
+    
+    doinchunks(model5,input=(r1,r2,r3,w12,w13,w23),output=("5modelflux1","5modelflux2","5modelflux3"))
+
+end
+
 fluxmodels2()
