@@ -27,7 +27,7 @@ function main()
     read!("2modelflux2",m2)
     read!("2modelflux3",m3)
 
-    coef(m1,f1,f2,f3,m1,m2,m3,1/S)
+    coef(m1,f1,f2,f3,m1,m2,m3,S)
     write("coef_2modelflux",m1)
 
     read!("3modelflux1",m1)
