@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal, InplaceRealFFT, LESFilter
 
 function adddx!(out,inp,kim)

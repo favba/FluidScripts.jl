@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal, InplaceRealFFT
 
 function resize(input::PaddedArray{T,3,L},newdim::NTuple{3,Int64}) where {T,L}

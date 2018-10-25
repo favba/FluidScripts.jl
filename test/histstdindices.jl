@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal, MyStats, JLD2
 
 function histstdindices(input::AbstractString,nbins::Integer,nstd::Number)

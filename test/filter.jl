@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using LESFilter, ReadGlobal, InplaceRealFFT
 
 function filter(inputfile::String,N::Int,fil::String)

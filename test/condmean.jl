@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using MyStats.condmean
 using ReadGlobal: readfield, readfield!
 using JLD2

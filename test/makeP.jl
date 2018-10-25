@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function makep!(d11::T,d22::T,d33::T,d12::T,d13::T,d23::T,

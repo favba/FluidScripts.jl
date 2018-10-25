@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function angle!(w₁::A,w₂::A,w₃::A,f₁::A,f₂::A,f₃::A,out::A) where {A<:Vector{<:Number}}

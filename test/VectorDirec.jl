@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function VectorDirec_part!(w₁::A,w₂::A,w₃::A,out::A) where {A<:Vector{<:Number}}

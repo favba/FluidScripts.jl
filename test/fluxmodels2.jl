@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function model4(r1,r2,r3,d11,d12,d13,d22,d23,d33,v1,v2,v3)

@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 @inline function energydistr_scalar(t11::T,t22::T,t33::T,t12::T,t13::T,t23::T,

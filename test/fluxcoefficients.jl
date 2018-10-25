@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function coef(out,f1,f2,f3,m1,m2,m3,α)

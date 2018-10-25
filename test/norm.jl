@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function makenorm!(txx::AbstractArray,txy,txz,tyy,tyz,tzz,out)

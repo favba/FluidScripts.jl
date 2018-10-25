@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal, InplaceRealFFT, Derivatives
 
 function tplus!(r::Array{T,N},u::Array{T,N},v::Array{T,N}) where {T,N}

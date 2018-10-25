@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function model2_part!(r1,r2,r3,t11,t12,t13,t22,t23,t33,out1,out2,out3)

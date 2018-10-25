@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal
 
 function makeTsgs!(r::Array{T,N},u::Array{T,N},v::Array{T,N}) where {T<:Number,N}

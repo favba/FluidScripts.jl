@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using ReadGlobal, Decomp, StaticArrays
 
 function TensorDirec_part!(t11::Vector{T},t22::Vector{T},t33::Vector{T},t12::Vector{T},t13::Vector{T},t23::Vector{T},dir::Vector{T}) where T<:AbstractFloat

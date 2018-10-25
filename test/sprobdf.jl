@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia6
 using MyStats, ReadGlobal
 
 function probdf(file::AbstractString,ntimess::AbstractString="3")
